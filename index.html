@@ -6,6 +6,15 @@
   <title>How AI Is Built: an interactive guide</title>
   <meta name="description" content="Learn how AI models are built, from data and tokenization to training, alignment and inference. A guided path from randomness and neural networks to the full model lifecycle, with interactive simulators." />
   <meta name="theme-color" content="#1a73e8" />
+  <link rel="canonical" href="https://anaslari23.github.io/How-AI-Is-Built/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="How AI Is Built" />
+  <meta property="og:description" content="An interactive guide to how AI models are built, from randomness and neural networks to training, alignment and deployment." />
+  <meta property="og:url" content="https://anaslari23.github.io/How-AI-Is-Built/" />
+  <meta property="og:image" content="https://anaslari23.github.io/How-AI-Is-Built/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How AI Is Built" />
+  <meta name="twitter:image" content="https://anaslari23.github.io/How-AI-Is-Built/og-image.png" />
   <script>try{var t=localStorage.getItem('aiLabTheme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}</script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231a73e8'/%3E%3Ccircle cx='9' cy='16' r='3' fill='white'/%3E%3Ccircle cx='23' cy='9' r='3' fill='white'/%3E%3Ccircle cx='23' cy='23' r='3' fill='white'/%3E%3Cpath d='M12 16L20 9M12 16L20 23' stroke='white' stroke-width='2'/%3E%3C/svg%3E" />
   <style>
@@ -54,7 +63,6 @@
     @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -237,6 +245,15 @@ html.dark input[type=range]{--trk:#8e8e93;--thm:#1d1d1f;--thb:transparent}
 @keyframes fxFlash{0%{background:rgba(0,113,227,.28)}100%{background:transparent}}
 .fx-flash{animation:fxFlash 1.1s ease-out;border-radius:6px}
 .rnd-chip[aria-pressed=true]{background:#d2e3fc}
+/* contrast fixes (WCAG AA) */
+:root{--ink2:#636366;--blue:#0066cc}
+[class*="text-[#80868b]"]{color:#6e6e73!important}
+[class*="text-[#70757a]"]{color:#5f6368!important}
+[class*="text-[#b06000]"]{color:#975200!important}
+[class*="text-[#1a73e8]"]{color:#185abc!important}
+[class*="text-[#1e8e3e]"]{color:#137333!important}
+#stagePhasePill{color:#0066cc!important}
+button[class*="bg-[#1e8e3e]"]{background-color:#188038}
 /* order: hero -> 3D feature -> labs */
 main{display:flex;flex-direction:column;gap:2rem}
 main>*,#viewRoadmap>*{margin-top:0!important}
@@ -1953,7 +1970,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
             </span>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-[#202124]">How Frontier AI Models Work Beyond Standard Transformers</h2>
             <p class="text-xs sm:text-sm text-[#3c4043] leading-relaxed">
-              Modern flagship systems (DeepSeek-V3/R1, OpenAI o1/o3 &amp; GPT-4o, Gemini 2.5 Pro, Claude 3.7 Sonnet, Llama 3.1 405B) combine <strong>Sparse Mixture-of-Experts (MoE)</strong>, <strong>Native Multimodality</strong>, <strong>Test-Time Reasoning Search</strong>, and <strong>Agentic Tool Execution</strong>. Interact with each architecture below:
+              Modern flagship systems (DeepSeek-V3/R1, OpenAI GPT-4o and o1/o3, Gemini 2.5 Pro, Claude 3.7 Sonnet, Llama 3.1 405B) draw on <strong>Sparse Mixture-of-Experts (MoE)</strong>, <strong>Native Multimodality</strong>, <strong>Test-Time Reasoning</strong>, and <strong>Agentic Tool Use</strong>, though not every model uses every idea. Closed models do not publish their architecture, so their cards show only what their makers have said publicly. Interact with each below:
             </p>
           </div>
           <button onclick="switchMainView('roadmap')" class="px-4 py-2 rounded-xl bg-[#f1f3f4] hover:bg-[#e8eaed] text-[#202124] border border-[#dadce0] text-xs font-semibold">
@@ -2626,10 +2643,10 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
         <div class="flex items-center justify-between">
           <div>
             <h2 class="text-lg font-bold text-[#202124]">Test Your AI Engineering Knowledge</h2>
-            <p class="text-xs text-[#5f6368]">12 quick questions: foundations and the model lifecycle</p>
+            <p id="quizSub" class="text-xs text-[#5f6368]">Quick questions: foundations and the model lifecycle</p>
           </div>
           <span id="quizScoreBadge" class="px-3 py-1 rounded-full bg-[#e6f4ea] text-[#137333] border border-[#ceead6] text-xs font-bold mono">
-            Score: 0 / 12
+            Score: 0 / 16
           </span>
         </div>
 
@@ -2645,7 +2662,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
           <p class="text-xs text-[#5f6368]">Filter key concepts by keyword or stage</p>
         </div>
 
-        <input id="glossarySearchInput" type="text" placeholder="Search terms (e.g., Token, LoRA, Attention, KV-Cache, DPO)..." oninput="renderGlossary()" class="w-full px-3.5 py-2 rounded-xl bg-[#f8f9fa] border border-[#dadce0] text-xs text-[#202124] focus:outline-none focus:border-[#1a73e8]" />
+        <input id="glossarySearchInput" aria-label="Search glossary terms" type="text" placeholder="Search terms (e.g., Token, LoRA, Attention, KV-Cache, DPO)..." oninput="renderGlossary()" class="w-full px-3.5 py-2 rounded-xl bg-[#f8f9fa] border border-[#dadce0] text-xs text-[#202124] focus:outline-none focus:border-[#1a73e8]" />
 
         <div id="glossaryListContainer" class="space-y-2.5 max-h-[540px] overflow-y-auto custom-scroll pr-1">
           <!-- Populated by JS -->
@@ -4120,6 +4137,30 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
         options: ["XOR needs more data", "One neuron draws one straight line; hidden neurons combine several lines into a curved boundary", "Single neurons cannot use a bias"],
         answer: 1,
         explanation: "XOR is not linearly separable. Hidden layers let a network bend its decision boundary, which is why deep models work."
+      },
+      {
+        q: "13. A model scores 99% on its training data but only 60% on new data. What is most likely happening?",
+        options: ["It is overfitting: it memorized the training data", "It is underfitting: it is too simple", "The new data must be mislabelled"],
+        answer: 0,
+        explanation: "A big gap between training and new-data performance is the signature of overfitting. More data, a simpler model or regularization (such as weight decay or dropout) are the usual fixes."
+      },
+      {
+        q: "14. Two word embeddings have a cosine similarity close to 1. What does that tell you?",
+        options: ["The words are unrelated", "The vectors point in nearly the same direction, so the model treats the words as similar", "The words are opposites"],
+        answer: 1,
+        explanation: "Cosine similarity measures the angle between vectors: 1 is the same direction, 0 is unrelated and -1 is opposite."
+      },
+      {
+        q: "15. What does softmax do to a model's raw scores?",
+        options: ["It turns them into probabilities that are positive and add up to 1", "It deletes the lowest scores", "It sorts them alphabetically"],
+        answer: 0,
+        explanation: "Softmax exponentiates the scores and divides by their sum, so higher scores get higher probability and the total is always 100%."
+      },
+      {
+        q: "16. You put three worked examples in a prompt and the model follows the pattern. How many of its weights changed?",
+        options: ["All of them", "A small adapter", "None: it learned in context, from the prompt alone"],
+        answer: 2,
+        explanation: "Few-shot prompting leaves the weights frozen. The model reads the examples in its context window and continues the pattern."
       }
     ];
     let quizAnswers = {};
@@ -4131,6 +4172,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
         if (quizAnswers[k] === QUIZ_QUESTIONS[k].answer) correctCount++;
       });
       document.getElementById('quizScoreBadge').textContent = `Score: ${correctCount} / ${QUIZ_QUESTIONS.length}`;
+      document.getElementById('quizSub').textContent = `${QUIZ_QUESTIONS.length} quick questions: foundations and the model lifecycle`;
 
       container.innerHTML = QUIZ_QUESTIONS.map((item, qIdx) => {
         const picked = quizAnswers[qIdx];
@@ -5358,32 +5400,32 @@ def top_p_temperature_sample(logits: torch.Tensor, temp: float = 0.7, top_p: flo
         badge: "Sparse MoE + MLA + GRPO",
         params: "671B Total / 37B Active per token",
         arch: "Multi-Head Latent Attention (MLA) + 256 Routed Experts (Top-8) + Aux-Loss-Free Balancing",
-        training: "14.8T tokens in FP8 + Pure RL (GRPO) on verifiable reasoning tasks",
-        highlight: "Pioneered native FP8 training, Multi-Token Prediction (MTP), and emergent self-verification via Group Relative Policy Optimization."
+        training: "14.8T tokens, mostly in FP8; R1 adds reinforcement learning (GRPO) on verifiable reasoning tasks",
+        highlight: "Showed FP8 training works at very large scale, adds Multi-Token Prediction (MTP), and R1 uses Group Relative Policy Optimization (GRPO) to grow step-by-step reasoning."
       },
       {
         name: "OpenAI GPT-4o & o1/o3",
         badge: "Omni-Modal + Test-Time Search",
-        params: "Sparse MoE + Reasoning Policy",
-        arch: "End-to-end Text/Audio/Vision tokens + Large-Scale Reinforcement Learning on Chain-of-Thought",
-        training: "Pre-training + SFT + RL with verifiable rewards & test-time compute scaling",
+        params: "Size and architecture not disclosed",
+        arch: "GPT-4o takes text, audio and images in one model. o1/o3 are trained with large-scale reinforcement learning to reason before answering.",
+        training: "Details not published. OpenAI describes reinforcement learning on chains of thought and extra thinking time at inference.",
         highlight: "Shifts scaling from purely pre-training FLOPs to inference-time thinking tokens, backtracking and verifying before emitting final output."
       },
       {
         name: "Gemini 2.5 Pro",
-        badge: "Native Multimodal + 1M–2M Context",
-        params: "Sparse MoE Flagship",
-        arch: "Native interleaved Vision/Audio/Video/Code + Ring Attention over 1M+ token context",
-        training: "Joint multimodal pre-training from scratch + Post-training thinking & tool-use RL",
-        highlight: "Processes hours of video, audio, and entire codebases natively in a single 1M–2M context window with near-perfect needle recall."
+        badge: "Native Multimodal + Long Context",
+        params: "Sparse MoE (per Google); size not disclosed",
+        arch: "Natively multimodal: text, images, audio and video. Long-context internals are not fully published.",
+        training: "Pre-training plus post-training, including reinforcement learning for thinking, as Google describes it.",
+        highlight: "Supports a context window of about 1 million tokens, so it can take long video, audio and large codebases as input."
       },
       {
         name: "Claude 3.7 Sonnet",
-        badge: "Hybrid Reasoning + Constitutional AI",
-        params: "Frontier Hybrid Reasoning Model",
-        arch: "Unified standard mode + extended thinking budget + Constitutional RLAIF",
-        training: "RLAIF self-critique + Agentic coding & computer-use environment RL",
-        highlight: "Integrates controllable thinking token budgets with strong agentic coding, bash execution, and character alignment."
+        badge: "Hybrid Reasoning",
+        params: "Size and architecture not disclosed",
+        arch: "One model with a standard mode and an extended-thinking mode, with a thinking budget you can set.",
+        training: "Details not published. Anthropic describes safety training based on Constitutional AI.",
+        highlight: "Lets you choose how long the model thinks, and is aimed at coding and agent tasks."
       },
       {
         name: "Llama 3.1 405B",
@@ -8693,9 +8735,25 @@ Generated via Interactive AI Model Architecture & Lifecycle Lab
     }
 
     let rndResizeT; window.addEventListener('resize', () => { clearTimeout(rndResizeT); rndResizeT = setTimeout(() => { if (!$r('viewBasics').classList.contains('hidden')) basicsDraw(); if (!$r('viewRandom').classList.contains('hidden')) { wiRun(); arRun(); pnRun(); } }, 200); });
+    // three.js (about 600 KB) loads only when the 3D scene is about to be seen
+    function lazyThree() {
+      const sec = document.getElementById('threeSimStudioSection');
+      const load = () => {
+        const sc = document.createElement('script');
+        sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+        sc.integrity = 'sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu'; sc.crossOrigin = 'anonymous';
+        sc.onload = () => { try { initThreeJSSimulator(); set3DSceneMode(current3DSceneIdx); } catch (e) { console.error('three init', e); } };
+        sc.onerror = () => { const w = $r('libWarning'); w.textContent = 'Could not load three.js (3D scenes) from the CDN. Check your internet connection. Everything else still works.'; w.classList.remove('hidden'); };
+        document.head.appendChild(sc);
+      };
+      if (!('IntersectionObserver' in window)) return load();
+      const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); load(); } }, { rootMargin: '600px' });
+      io.observe(sec);
+    }
+
     window.onload = function () {
       try { if (localStorage.getItem('aiLabStartHere')) $r('startHere').classList.add('hidden'); } catch (e) {}
-      const missing = [typeof Chart === 'undefined' && 'Chart.js (charts)', typeof THREE === 'undefined' && 'three.js (3D scenes)'].filter(Boolean);
+      const missing = [typeof Chart === 'undefined' && 'Chart.js (charts)', false].filter(Boolean);
       if (missing.length) { const w = $r('libWarning'); w.textContent = 'Could not load ' + missing.join(' and ') + ' from the CDN (check your internet connection). Everything else still works.'; w.classList.remove('hidden'); }
       initRandomLab();
       try { renderPipelineNodes(); } catch (e) { console.error('renderPipelineNodes', e); }
@@ -8747,7 +8805,7 @@ Generated via Interactive AI Model Architecture & Lifecycle Lab
       try { renderFlashTileWorkbench(); } catch (e) { console.error('renderFlashTileWorkbench', e); }
       try { setDiffusionStep(3); } catch (e) { console.error('setDiffusionStep', e); }
       try { setFlywheelStage(0); } catch (e) { console.error('setFlywheelStage', e); }
-      try { initThreeJSSimulator(); } catch (e) { console.error('initThreeJSSimulator', e); }
+      try { lazyThree(); } catch (e) { console.error('lazyThree', e); }
       try { render3DSceneSelectorStrip(); } catch (e) { console.error('render3DSceneSelectorStrip', e); }
       try { renderSimLabNavCards(); } catch (e) { console.error('renderSimLabNavCards', e); }
       try { updateCoupledGlobalTelemetry(); } catch (e) { console.error('updateCoupledGlobalTelemetry', e); }
