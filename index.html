@@ -18,6 +18,9 @@
   <script>try{var t=localStorage.getItem('aiLabTheme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}</script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231a73e8'/%3E%3Ccircle cx='9' cy='16' r='3' fill='white'/%3E%3Ccircle cx='23' cy='9' r='3' fill='white'/%3E%3Ccircle cx='23' cy='23' r='3' fill='white'/%3E%3Cpath d='M12 16L20 9M12 16L20 23' stroke='white' stroke-width='2'/%3E%3C/svg%3E" />
   <style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:300 800;font-display:swap;src:url(vendor/fonts/inter.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400 600;font-display:swap;src:url(vendor/fonts/jetbrains-mono.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Roboto Mono';font-style:normal;font-weight:400 600;font-display:swap;src:url(vendor/fonts/roboto-mono.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
     .rnd-ai{background:#e8f0fe;border:1px solid #d2e3fc;color:#174ea6;border-radius:.75rem;padding:.75rem;font-size:.75rem;line-height:1.35}
     .rnd-ai code{font-family:'JetBrains Mono',monospace;background:#fff;padding:0 .25rem;border-radius:.25rem}
     .rnd-chip{flex:0 0 auto;padding:.4rem .75rem;border-radius:9999px;background:#fff;border:1px solid #dadce0;font-size:.75rem;font-weight:600;color:#174ea6;white-space:nowrap}
@@ -62,10 +65,7 @@
     @media (max-width:639px) and (orientation:landscape){#threeMainCanvas{min-height:240px}}
     @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="vendor/chart.umd.js"></script>
 
   <!-- ==================== EXPORT CUSTOM AI ARCHITECTURE SPEC MODAL ==================== -->
   <div id="specExportModal" class="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
@@ -99,7 +99,6 @@
     </div>
   </div>
 
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --g-blue: #1a73e8;
@@ -123,7 +122,7 @@
       --g-text-secondary: #5f6368;
     }
     body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background-color: var(--g-bg) !important;
       color: var(--g-text) !important;
       overflow-x: hidden;
@@ -253,7 +252,9 @@ html.dark input[type=range]{--trk:#8e8e93;--thm:#1d1d1f;--thb:transparent}
 [class*="text-[#1a73e8]"]{color:#185abc!important}
 [class*="text-[#1e8e3e]"]{color:#137333!important}
 #stagePhasePill{color:#0066cc!important}
-button[class*="bg-[#1e8e3e]"]{background-color:#188038}
+[class*="bg-[#1e8e3e]"]{background-color:#188038}
+[class*="bg-[#f9ab00]"]{color:#202124!important}
+[class*="bg-[#f9ab00]"] svg{color:#202124}
 /* order: hero -> 3D feature -> labs */
 main{display:flex;flex-direction:column;gap:2rem}
 main>*,#viewRoadmap>*{margin-top:0!important}
@@ -1005,7 +1006,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
               <div class="bg-[#f8f9fa] p-3.5 rounded-xl border border-[#dadce0]">
                 <div class="text-[11px] text-[#5f6368]">Total Parameters</div>
                 <div id="calcTotalParams" class="text-xl font-extrabold text-[#202124] mono mt-0.5">6.74 B</div>
-                <div class="text-[11px] text-[#70757a]">~12·L·d² + V·d</div>
+                <div class="text-[11px] text-[#70757a]">~12·L·d² + 2·V·d</div>
               </div>
               <div class="bg-[#f8f9fa] p-3.5 rounded-xl border border-[#dadce0]">
                 <div class="text-[11px] text-[#5f6368]">BF16 Training VRAM</div>
@@ -1188,7 +1189,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
                   <span class="px-2 py-0.5 rounded bg-[#fef7e0] text-[#b06000] text-[10px] font-bold uppercase mono">Deep Dive 4A</span>
                   Distributed GPU Cluster &amp; ZeRO/FSDP Memory Sharding Simulator
                 </h4>
-                <p class="text-xs text-[#5f6368]">A 70B model needs ~1,120 GB of training memory—far exceeding a single 80GB H100 GPU. Switch ZeRO sharding stages:</p>
+                <p class="text-xs text-[#5f6368]">A 7B model needs ~112 GB of training memory (about 16 bytes per parameter), more than a single 80GB H100 GPU. Switch ZeRO sharding stages:</p>
               </div>
               <div class="flex gap-1.5">
                 <button onclick="setZeroStage(0)" id="btnZero0" class="text-xs px-2.5 py-1 rounded bg-[#f1f3f4] text-[#3c4043]">Standard DDP</button>
@@ -1787,7 +1788,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
           <div class="flex items-center justify-between p-3.5 rounded-xl bg-[#f8f9fa] border border-[#dadce0]">
             <div>
               <div class="text-xs font-bold text-[#202124]">Enable Key-Value (KV) Attention Cache</div>
-              <div class="text-[11px] text-[#5f6368]">Caches past token <i>K</i>, <i>V</i> tensors so generation is <i>O</i>(1) per step instead of recomputing all past tokens</div>
+              <div class="text-[11px] text-[#5f6368]">Caches past token <i>K</i>, <i>V</i> tensors so each new token computes only its own, instead of recomputing all past tokens</div>
             </div>
             <input type="checkbox" id="chkKvCache" checked onchange="updateInferenceMetrics()" class="w-4 h-4 rounded" />
           </div>
@@ -1993,7 +1994,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
                 <span class="w-2.5 h-2.5 rounded-full bg-[#fbbc04]"></span>
                 1. Sparse Mixture-of-Experts (MoE) Token Router
               </h3>
-              <p class="text-xs text-[#5f6368]">Instead of activating 100% of weights for every word, MoE models route each token to only Top-<i>k</i> specialized FFN experts (e.g., 37B active out of 671B total):</p>
+              <p class="text-xs text-[#5f6368]">Instead of activating 100% of weights for every word, MoE models route each token to only Top-<i>k</i> specialized FFN experts (e.g., 37B active out of 671B total). The expert names below are illustrative; real experts rarely map to neat topics like these:</p>
             </div>
           </div>
 
@@ -2136,7 +2137,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
             <div>
               <span class="px-2 py-0.5 rounded bg-[#e6f4ea] text-[#1e8e3e] text-[10px] font-bold uppercase mono">Simulator 2 of 6 • 3D World #11</span>
               <h3 class="text-base font-bold text-[#202124] mt-1">Knowledge Distillation (671B &rarr; 7B) &amp; Weight Merging</h3>
-              <p class="text-xs text-[#5f6368]">Transfer "dark knowledge" via temperature-softened KL divergence <i>L</i><sub>KD</sub> = <i>T</i><sup>2</sup> &middot; <i>D</i><sub>KL</sub>(<i>P</i><sub>Teacher</sub> || <i>P</i><sub>Student</sub>) or merge checkpoints:</p>
+              <p class="text-xs text-[#5f6368]">Transfer "dark knowledge" (illustrative numbers) via temperature-softened KL divergence <i>L</i><sub>KD</sub> = <i>T</i><sup>2</sup> &middot; <i>D</i><sub>KL</sub>(<i>P</i><sub>Teacher</sub> || <i>P</i><sub>Student</sub>) or merge checkpoints:</p>
             </div>
             <button onclick="set3DSceneMode(10)" class="px-2.5 py-1.5 rounded-lg bg-[#e8f0fe] hover:bg-[#d2e3fc] text-[#1a73e8] border border-[#d2e3fc] text-xs font-semibold shrink-0">
               Load in 3D Studio
@@ -2188,7 +2189,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
           <div id="ragTelemetryReadout" class="p-3 rounded-xl bg-[#e6f4ea] border border-[#ceead6] text-xs mono text-[#137333]"></div>
         </div>
 
-        <!-- Simulator 4: FlashAttention GPU SRAM vs HBM3e Tiling Kernel -->
+        <!-- Simulator 4: FlashAttention GPU SRAM vs HBM3 Tiling Kernel -->
         <div class="lg:col-span-6 bg-white rounded-2xl p-5 border border-[#dadce0] shadow-sm space-y-4">
           <div class="flex items-center justify-between">
             <div>
@@ -2274,7 +2275,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
         <section id="b1Card" class="bg-white shadow-sm rounded-2xl p-6 border border-[#dadce0] space-y-3 xl:col-span-2" aria-labelledby="b1Title">
           <h3 id="b1Title" class="text-base font-bold text-[#202124]">1. Learn, Don't Memorize <span class="text-xs font-normal text-[#5f6368]">(overfitting and regularization)</span></h3>
           <div class="rnd-predict" data-key="b1"></div>
-          <p class="text-xs text-[#5f6368]">The model fits a curve through the <b style="color:#1a73e8">blue</b> training points. The <b style="color:#e37400">orange</b> circles are new data it has never seen. A good model does well on both.</p>
+          <p class="text-xs text-[#5f6368]">The model fits a curve through the <b style="color:#185abc">blue</b> training points. The <b style="color:#b45309">orange</b> circles are new data it has never seen. A good model does well on both.</p>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <label class="flex flex-col gap-1 font-semibold">Model flexibility: <span id="b1dL" class="font-mono">3</span><input id="b1d" type="range" min="1" max="12" step="1" value="3" oninput="b1Run()" /></label>
             <label class="flex flex-col gap-1 font-semibold">Penalty on big weights (regularization): <span id="b1lL" class="font-mono">off</span><input id="b1l" type="range" min="0" max="10" step="1" value="0" oninput="b1Run()" /></label>
@@ -2524,7 +2525,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
       <div id="nnTop" class="bg-white shadow-sm rounded-2xl p-6 border border-[#dadce0] space-y-2">
         <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-[#9334e6] text-white uppercase tracking-wider">Foundation 3 of 3</span>
         <h2 class="text-xl font-bold text-[#202124]">Neural Networks: Learning by Adjusting Weights</h2>
-        <p class="text-sm text-[#5f6368]">A neural network is many tiny neurons that weigh their inputs. Learning means nudging the weights to shrink the error. Ideas from <a class="text-[#1a73e8] underline" href="https://natureofcode.com/neural-networks/" target="_blank" rel="noopener noreferrer">The Nature of Code, Ch. 10: Neural Networks</a>. Random starting weights come from Foundation 1.</p>
+        <p class="text-sm text-[#5f6368]">A neural network is many tiny neurons that weigh their inputs. Learning means nudging the weights to shrink the error. Ideas from <a class="text-[#1a73e8] underline" href="https://natureofcode.com/neural-networks/" target="_blank" rel="noopener noreferrer">The Nature of Code, Ch. 10: Neural Networks</a>. Random starting weights come from Foundation 2.</p>
       </div>
       <nav aria-label="Neural network sections" class="flex gap-2 overflow-x-auto pb-1" style="scrollbar-width:none">
         <button onclick="rndJump('nn1Card')" class="rnd-chip">1 One neuron</button><button onclick="rndJump('nn2Card')" class="rnd-chip">2 Teach a neuron</button>
@@ -2781,10 +2782,10 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
         short: "8. Deployment",
         phase: "Phase 8 of 8 • Production Serving",
         title: "8. Quantization, KV-Cache & Production Inference",
-        subtitle: "To serve millions of users with low latency and low cost, weights are quantized (FP16 → INT8/INT4), Key-Value (KV) attention states are cached across turns, and token sampling (Temperature, Top-P) generates live responses.",
+        subtitle: "To serve millions of users with low latency and low cost, weights are quantized (FP16 → INT8/INT4), Key-Value (KV) attention states are cached so each new token reuses earlier work, and token sampling (Temperature, Top-P) generates live responses.",
         timeCost: "Real-time (<50ms/token) | Compute: vLLM / TensorRT-LLM Inference Servers",
         input: "Verified Model Weights + Live User Prompts",
-        process: "AWQ/GGUF Quantization, PagedAttention KV-Cache, Autoregressive Sampling",
+        process: "AWQ / GPTQ quantization (GGUF files for local use), PagedAttention KV-Cache, Autoregressive Sampling",
         output: "Fast, low-latency streaming token API",
         scale: "4-bit / 8-bit / 16-bit Precision",
         objective: "Maximize Tokens/sec throughput & minimize VRAM per concurrent user"
@@ -3657,11 +3658,11 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
       const ratio = (loraParams / fullParams) * 100;
 
       document.getElementById('lblLoraRank').textContent = `r = ${r}`;
-      document.getElementById('loraAdapterCount').textContent = `${loraParams.toLocaleString()} trainable params`;
+      document.getElementById('loraAdapterCount').textContent = `${loraParams.toLocaleString()} trainable params (this one matrix)`;
       document.getElementById('loraRatioText').textContent = `${ratio.toFixed(2)}%`;
 
       const sizeMb = Math.round(r * 8.4);
-      document.getElementById('loraFileSizeText').textContent = `~${sizeMb} MB`;
+      document.getElementById('loraFileSizeText').textContent = `~${sizeMb} MB (adapters across a 7B model, approx.)`;
 
       const visualPx = Math.max(12, Math.min(48, Math.round(10 + r * 0.28)));
       document.getElementById('loraBoxB').style.width = `${visualPx}px`;
@@ -4000,7 +4001,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
       { term: "Byte-Pair Encoding (BPE)", stage: "Stage 2: Tokenization", desc: "A subword tokenization algorithm that iteratively merges the most frequent pair of bytes or characters, balancing vocabulary size with the ability to represent any rare word without <unk> tokens." },
       { term: "Embedding Vector (d_model)", stage: "Stage 2: Tokenization", desc: "A learned dense numerical array (e.g., 4,096 floats) representing a token's semantic meaning in continuous high-dimensional space." },
       { term: "Causal Self-Attention", stage: "Stage 3: Architecture", desc: "The core mechanism of decoder-only Transformers where each token computes Query, Key, and Value vectors to attend to earlier tokens in the context window without peeking at future tokens." },
-      { term: "RoPE (Rotary Position Embedding)", stage: "Stage 3: Architecture", desc: "Encodes token positions by rotating Query and Key vectors in complex space, allowing smooth generalization to long context windows." },
+      { term: "RoPE (Rotary Position Embedding)", stage: "Stage 3: Architecture", desc: "Encodes token positions by rotating Query and Key vectors, so attention depends on the relative distance between tokens. Scaling tricks such as YaRN stretch it to longer context windows." },
       { term: "Cross-Entropy Loss & Perplexity", stage: "Stage 4: Pre-Training", desc: "Measures how surprised the model is by the true next token. Perplexity is exp(Loss); lower perplexity means sharper, more accurate next-token predictions." },
       { term: "Supervised Fine-Tuning (SFT)", stage: "Stage 5: SFT & LoRA", desc: "Trains a pre-trained base model on curated (Prompt, Response) demonstrations with loss masked on prompt tokens so the model learns to act as a helpful assistant." },
       { term: "LoRA (Low-Rank Adaptation)", stage: "Stage 5: SFT & LoRA", desc: "Freezes the main pretrained weight matrix W_0 and injects small trainable rank-r matrices A and B, cutting trainable parameters by >99%." },
@@ -4215,7 +4216,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
       {
         stageName: "Stage 1 • Data Collection & Curation",
         math: "Jaccard(A, B) = |S(A) ∩ S(B)| / |S(A) ∪ S(B)| ≈ (1/k) ∑ 𝕀[h_i(A) == h_i(B)]\n\nDomain Sampling Probability with Temperature τ:\nP_i = (n_i ^ (1/τ)) / ∑_j (n_j ^ (1/τ))",
-        mathDesc: "MinHash approximates the exact Jaccard overlap between 5-gram shingle sets S(A) and S(B) using k independent hash functions, reducing O(N²) pairwise comparisons to O(N) via Locality-Sensitive Hashing (LSH) bands.",
+        mathDesc: "MinHash approximates the exact Jaccard overlap between 5-gram shingle sets S(A) and S(B) using k independent hash functions, avoiding the O(N²) all-pairs comparison: Locality-Sensitive Hashing (LSH) bands only compare documents that share a band, which is close to linear in practice.",
         tensors: [
           "Raw Crawl Stream: 50+ TB compressed WARC shards",
           "MinHash Signature: [num_docs, 128] uint32 hash buckets",
@@ -4653,8 +4654,8 @@ def top_p_temperature_sample(logits: torch.Tensor, temp: float = 0.7, top_p: flo
       document.getElementById('ropeMathReadout').innerHTML = `
         <div class="text-[#137333] font-bold">Fast Clock (Dim 0,1):</div>
         <div>Rotates ${(m * 57.3).toFixed(0)}&deg; (captures local syntax)</div>
-        <div class="text-[#b06000] font-bold pt-1">Slow Clock (Dim d-2,d-1):</div>
-        <div>Rotates ${(m * 0.05 * 57.3).toFixed(1)}&deg; (captures long-range document distance)</div>
+        <div class="text-[#b06000] font-bold pt-1">Slow Clock (last pair, shown with θ = 0.05):</div>
+        <div>Rotates ${(m * 0.05 * 57.3).toFixed(1)}&deg; (slow pairs track long distances; in real models the slowest θ is about 0.0001)</div>
       `;
     }
 
@@ -5098,7 +5099,7 @@ def top_p_temperature_sample(logits: torch.Tensor, temp: float = 0.7, top_p: flo
           `).join('')}
         </div>
         <div class="md:col-span-6 p-3.5 rounded-xl bg-white shadow-sm border border-[#dadce0] text-xs text-[#3c4043] leading-relaxed">
-          <div class="font-bold text-[#202124] mb-1">Mechanistic Interpretability Insight:</div>
+          <div class="font-bold text-[#202124] mb-1">Illustrative reading (a simplified story, not a measurement):</div>
           ${item.note}
         </div>
       `;
@@ -5360,7 +5361,7 @@ def top_p_temperature_sample(logits: torch.Tensor, temp: float = 0.7, top_p: flo
         `;
       }).join('');
       const used = hbmBlocks.filter(b => b.state !== 'free').length;
-      document.getElementById('pagedHbmStatus').innerHTML = `HBM Page Utilization: <strong>${used} / 8 Pages Active</strong> (Zero internal fragmentation) • ${lastMsg}`;
+      document.getElementById('pagedHbmStatus').innerHTML = `HBM Page Utilization: <strong>${used} / 8 Pages Active</strong> (almost no wasted memory) • ${lastMsg}`;
     }
 
     function pagedAttnAction(act) {
@@ -5533,7 +5534,7 @@ def top_p_temperature_sample(logits: torch.Tensor, temp: float = 0.7, top_p: flo
       }).join('');
 
       document.getElementById('moeRoutingExplanation').innerHTML = `
-        Token <strong>"${item.tok}"</strong> <svg class="ui-icon w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Gating Router activates <strong>${MOE_EXPERTS[activeTop[0]]}</strong> (${Math.round(item.probs[0]*100)}%) + <strong>${MOE_EXPERTS[activeTop[1]]}</strong> (${Math.round(item.probs[1]*100)}%) + <strong>Shared Expert #8</strong>. 5 of 8 experts stay asleep, saving 68% FLOPs!${reroutedNote}
+        Token <strong>"${item.tok}"</strong> <svg class="ui-icon w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Gating Router activates <strong>${MOE_EXPERTS[activeTop[0]]}</strong> (${Math.round(item.probs[0]*100)}%) + <strong>${MOE_EXPERTS[activeTop[1]]}</strong> (${Math.round(item.probs[1]*100)}%) + <strong>Shared Expert #8</strong>. 5 of 8 experts stay asleep, saving about 62% of expert FLOPs!${reroutedNote}
       `;
     }
 
@@ -5830,9 +5831,9 @@ def top_p_temperature_sample(logits: torch.Tensor, temp: float = 0.7, top_p: flo
         ]
       },
       {
-        title: "Sim Lab #4 (3D World 13): FlashAttention GPU HBM3e ↔ On-Chip SRAM Tile Engine",
+        title: "Sim Lab #4 (3D World 13): FlashAttention GPU HBM3 ↔ On-Chip SRAM Tile Engine",
         actionText: "Step Next (Q_i, K_j, V_j) SRAM Tile",
-        hint: "Click the outer HBM3e memory stacks or the central On-Chip SRAM Tensor Core die to step through block-tiled Online Softmax!",
+        hint: "Click the outer HBM3 memory stacks or the central On-Chip SRAM Tensor Core die to step through block-tiled Online Softmax!",
         buttons: [
           { label: "Step Next Tile (i, j)", fn: "stepFlashTile()" },
           { label: "FlashAttention Tiling", fn: "setFlashKernelMode('flash')" },
@@ -6894,7 +6895,7 @@ def top_p_temperature_sample(logits: torch.Tensor, temp: float = 0.7, top_p: flo
         { idx: 9, tag: "Sim 1 • 3D #10", name: "SAE Feature Steering", desc: "Monosemantic dictionary clamping" },
         { idx: 10, tag: "Sim 2 • 3D #11", name: "Distillation & Merge", desc: "671B→7B KL & TIES/SLERP" },
         { idx: 11, tag: "Sim 3 • 3D #12", name: "3D HNSW Vector RAG", desc: "Multi-layer graph & reranking" },
-        { idx: 12, tag: "Sim 4 • 3D #13", name: "FlashAttention SRAM", desc: "HBM3e vs SRAM block tiling" },
+        { idx: 12, tag: "Sim 4 • 3D #13", name: "FlashAttention SRAM", desc: "HBM3 vs SRAM block tiling" },
         { idx: 13, tag: "Sim 5 • 3D #14", name: "Diffusion DiT Flow", desc: "3D velocity field denoising" },
         { idx: 14, tag: "Sim 6 • 3D #15", name: "Production Flywheel", desc: "Drift detection & online DPO" }
       ];
@@ -7191,8 +7192,8 @@ def top_p_temperature_sample(logits: torch.Tensor, temp: float = 0.7, top_p: flo
     // ----------------------------------------------------------------------------
     let ragStageState = 2;
     const RAG_CANDIDATE_CHUNKS = [
-      { id: "Chunk #402", text: " FlashAttention tiles Q, K, V into GPU SRAM to reduce HBM reads from O(N²) to O(N).", denseScore: 0.86, bm25Score: 0.92, rerankScore: 0.98, relevant: true },
-      { id: "Chunk #119", text: " GPU HBM3e memory bandwidth on H100 SXM5 reaches 3.35 TB/sec across 5 stacks.", denseScore: 0.88, bm25Score: 0.61, rerankScore: 0.89, relevant: true },
+      { id: "Chunk #402", text: " FlashAttention tiles Q, K, V into GPU SRAM to avoid writing the full N×N attention matrix to HBM, so memory grows as O(N) instead of O(N²).", denseScore: 0.86, bm25Score: 0.92, rerankScore: 0.98, relevant: true },
+      { id: "Chunk #119", text: " GPU HBM3 memory bandwidth on H100 SXM5 reaches 3.35 TB/sec across 5 stacks.", denseScore: 0.88, bm25Score: 0.61, rerankScore: 0.89, relevant: true },
       { id: "Chunk #883", text: " Attention mechanisms in psychology describe how human visual cortex filters distractions.", denseScore: 0.89, bm25Score: 0.15, rerankScore: 0.08, relevant: false }
     ];
 
@@ -7340,7 +7341,7 @@ def top_p_temperature_sample(logits: torch.Tensor, temp: float = 0.7, top_p: flo
         <div class="flex justify-between items-center text-xs">
           <span class="font-bold text-[#202124]">Active SRAM Block: Q_tile[${r}] × K_tile[${c}]ᵀ</span>
           <span class="mono font-bold ${flashKernelMode === 'flash' ? 'text-[#1e8e3e]' : 'text-[#d93025]'}">
-            ${flashKernelMode === 'flash' ? 'HBM Writes: 0 Intermediate Bytes (8.4× Speedup)' : 'HBM Writes: 64 GB Intermediate N×N Matrix!'}
+            ${flashKernelMode === 'flash' ? 'HBM Writes: 0 Intermediate Bytes (typically 2–4× faster)' : 'HBM Writes: 64 GB Intermediate N×N Matrix!'}
           </span>
         </div>
         <div class="grid grid-cols-3 gap-2">${cells}</div>
@@ -7351,14 +7352,14 @@ def top_p_temperature_sample(logits: torch.Tensor, temp: float = 0.7, top_p: flo
     }
 
     function build3DSim4FlashAttentionGpu() {
-      // Left: Slow HBM3e Memory Stack
+      // Left: Slow HBM3 Memory Stack
       const hbm = new THREE.Mesh(
         new THREE.BoxGeometry(3.2, 5.2, 3.2),
         new THREE.MeshStandardMaterial({ color: 0x5f6368, roughness: 0.4, metalness: 0.5 })
       );
       hbm.position.set(-5.5, 0, 0);
       hbm.userData = {
-        title: "Off-Chip HBM3e Memory Stack (80 GB • 3.35 TB/s)",
+        title: "Off-Chip HBM3 Memory Stack (80 GB • 3.35 TB/s)",
         detail: "High capacity but high latency. FlashAttention avoids writing the huge N×N attention matrix back to HBM!"
       };
       threeRootGroup.add(hbm);
@@ -7904,7 +7905,7 @@ Generated via Interactive AI Model Architecture & Lifecycle Lab
       { title: "Sparse Autoencoders (SAE) Feature Steering", tag: "Sim Lab #1 • 3D #10", action: () => { switchMainView('simlab'); set3DSceneMode(9); } },
       { title: "Knowledge Distillation & TIES/SLERP Model Merging", tag: "Sim Lab #2 • 3D #11", action: () => { switchMainView('simlab'); set3DSceneMode(10); } },
       { title: "3D HNSW Vector Graph & Cross-Encoder RAG", tag: "Sim Lab #3 • 3D #12", action: () => { switchMainView('simlab'); set3DSceneMode(11); } },
-      { title: "FlashAttention GPU SRAM vs HBM3e Tiling", tag: "Sim Lab #4 • 3D #13", action: () => { switchMainView('simlab'); set3DSceneMode(12); } },
+      { title: "FlashAttention GPU SRAM vs HBM3 Tiling", tag: "Sim Lab #4 • 3D #13", action: () => { switchMainView('simlab'); set3DSceneMode(12); } },
       { title: "Diffusion Transformers (DiT) & Rectified Flow", tag: "Sim Lab #5 • 3D #14", action: () => { switchMainView('simlab'); set3DSceneMode(13); } },
       { title: "Production Data Flywheel & Online DPO", tag: "Sim Lab #6 • 3D #15", action: () => { switchMainView('simlab'); set3DSceneMode(14); } }
     ];
@@ -8252,7 +8253,7 @@ Generated via Interactive AI Model Architecture & Lifecycle Lab
 
     // ---------- 5. LLM next-token sampling ----------
     const LS = { words: ['mat', 'floor', 'sofa', 'roof', 'windowsill', 'moon', 'keyboard', 'ocean'], logits: [4.2, 3.4, 3.0, 2.2, 2.0, 0.6, 0.3, -1.0], probs: [], rng: null, lastR: null,
-      colors: ['#1a73e8', '#1e8e3e', '#f9ab00', '#d93025', '#9334e6', '#12b5cb', '#e8710a', '#5f6368'] };
+      colors: ['#1a73e8', '#188038', '#b06000', '#d93025', '#9334e6', '#0b7a8b', '#b45309', '#5f6368'] }; // all keep 4.5:1 with white label text
     function lsProbs() {
       const T = +$r('lsT').value, K = +$r('lsK').value, P = +$r('lsP').value;
       $r('lsTLabel').textContent = T.toFixed(1); $r('lsKLabel').textContent = K; $r('lsPLabel').textContent = P.toFixed(2);
@@ -8695,7 +8696,7 @@ Generated via Interactive AI Model Architecture & Lifecycle Lab
     const NN_LIFE = [
       ['Inputs as numbers', 'Text becomes token IDs, then embedding vectors', [['s', 1, 'Step 2: Tokenization']]],
       ['Collect and prepare data', 'Crawl, deduplicate, filter, split into train/validation', [['s', 0, 'Step 1: Data']]],
-      ['Weights and bias', 'Billions of parameters, started from random Gaussians', [['c', 'wiCard', 'F1: Weight init'], ['s', 2, 'Step 3: Architecture']]],
+      ['Weights and bias', 'Billions of parameters, started from random Gaussians', [['c', 'wiCard', 'F2: Weight init'], ['s', 2, 'Step 3: Architecture']]],
       ['Activation function', 'ReLU / SwiGLU between layers', [['s', 2, 'Step 3: Architecture']]],
       ['Hidden layers', 'Stacked Transformer blocks (attention + feed-forward)', [['s', 2, 'Step 3: Architecture']]],
       ['Error, backprop, learning rate', 'Cross-entropy loss, backpropagation, AdamW with a learning-rate schedule', [['s', 3, 'Step 4: Pre-training']]],
@@ -8740,10 +8741,9 @@ Generated via Interactive AI Model Architecture & Lifecycle Lab
       const sec = document.getElementById('threeSimStudioSection');
       const load = () => {
         const sc = document.createElement('script');
-        sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-        sc.integrity = 'sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu'; sc.crossOrigin = 'anonymous';
+        sc.src = 'vendor/three.min.js';
         sc.onload = () => { try { initThreeJSSimulator(); set3DSceneMode(current3DSceneIdx); } catch (e) { console.error('three init', e); } };
-        sc.onerror = () => { const w = $r('libWarning'); w.textContent = 'Could not load three.js (3D scenes) from the CDN. Check your internet connection. Everything else still works.'; w.classList.remove('hidden'); };
+        sc.onerror = () => { const w = $r('libWarning'); w.textContent = 'Could not load the 3D library. Reload the page. Everything else still works.'; w.classList.remove('hidden'); };
         document.head.appendChild(sc);
       };
       if (!('IntersectionObserver' in window)) return load();
@@ -8754,7 +8754,7 @@ Generated via Interactive AI Model Architecture & Lifecycle Lab
     window.onload = function () {
       try { if (localStorage.getItem('aiLabStartHere')) $r('startHere').classList.add('hidden'); } catch (e) {}
       const missing = [typeof Chart === 'undefined' && 'Chart.js (charts)', false].filter(Boolean);
-      if (missing.length) { const w = $r('libWarning'); w.textContent = 'Could not load ' + missing.join(' and ') + ' from the CDN (check your internet connection). Everything else still works.'; w.classList.remove('hidden'); }
+      if (missing.length) { const w = $r('libWarning'); w.textContent = 'Could not load ' + missing.join(' and ') + '. Reload the page. Everything else still works.'; w.classList.remove('hidden'); }
       initRandomLab();
       try { renderPipelineNodes(); } catch (e) { console.error('renderPipelineNodes', e); }
       try { updateDataFunnel(); } catch (e) { console.error('updateDataFunnel', e); }
