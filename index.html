@@ -531,7 +531,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
           <div class="text-left">
             <div>
               <div class="text-[11px] uppercase tracking-wider text-[#6e6e73] font-semibold">What comes out</div>
-              <div id="stageOutputText" class="text-sm text-[#1d1d1f] mt-1 leading-snug">Clean, high-signal pre-training corpus (1T–15T tokens)</div>
+              <div id="stageOutputText" class="text-sm text-[#1d1d1f] mt-1 leading-snug">Clean, high-quality training text (1 to 15 trillion word pieces)</div>
             </div>
           </div>
         </div>
@@ -2302,7 +2302,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
           <canvas id="b2Canvas" width="320" height="320" role="img" aria-label="Two arrows from the centre, with the dot product shown as B's shadow on A" class="w-full max-w-sm mx-auto block rounded-xl border border-[#dadce0] bg-white"></canvas>
           <p id="b2Readout" class="text-xs font-mono text-[#3c4043]" aria-live="polite"></p>
           <div class="pt-2 border-t border-[#dadce0] space-y-2">
-            <p class="text-xs text-[#5f6368]"><b>Scores to probabilities (softmax).</b> The model gives each possible next word a score. Softmax turns the scores into chances that add up to 100%.</p>
+            <p class="text-xs text-[#5f6368]"><b>Scores turned into percentages.</b> The model gives each possible next word a score. Softmax turns the scores into chances that add up to 100%.</p>
             <div class="grid grid-cols-3 gap-2 text-xs">
               <label class="flex flex-col gap-1 font-semibold">cat: <span id="b2s0L" class="font-mono">3.0</span><input id="b2s0" type="range" min="-2" max="6" step="0.1" value="3" oninput="b2Soft()" /></label>
               <label class="flex flex-col gap-1 font-semibold">dog: <span id="b2s1L" class="font-mono">2.0</span><input id="b2s1" type="range" min="-2" max="6" step="0.1" value="2" oninput="b2Soft()" /></label>
@@ -2489,7 +2489,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
           <div class="rnd-predict" data-key="ps"></div>
           <p class="text-xs text-[#5f6368]">Three heads in a row is (1/2)<sup>3</sup> = 12.5%. An answer is a chain of word-piece choices.</p>
           <div class="grid grid-cols-2 gap-2 text-xs">
-            <label class="flex flex-col gap-1 font-semibold">Chance a token is wrong: <span id="psPLabel" class="font-mono">0.5%</span>
+            <label class="flex flex-col gap-1 font-semibold">Chance a word piece is wrong: <span id="psPLabel" class="font-mono">0.5%</span>
               <input id="psP" type="range" min="0.1" max="5" step="0.1" value="0.5" oninput="psRun()" /></label>
             <label class="flex flex-col gap-1 font-semibold">Answer length (word pieces): <span id="psNLabel" class="font-mono">200</span>
               <input id="psN" type="range" min="1" max="2000" step="1" value="200" oninput="psRun()" /></label>
@@ -4017,7 +4017,7 @@ main:has(#viewRoadmap:not(.hidden)) #threeSimStudioSection{order:2}
       { term: "Learning rate", stage: "Basics", desc: "How big each nudge to the settings is. Too small is slow; too big overshoots and can make training fail." },
       { term: "Backpropagation", stage: "Step 4: Learn from Text", desc: "Sends the model's mistake backward through the layers to work out how much each setting contributed, then nudges every setting to reduce the mistake." },
       { term: "Random-number generator and seed", stage: "Randomness", desc: "A formula that produces numbers that look random. The same seed replays the same sequence, which makes AI experiments repeatable." },
-      { term: "Bell curve (normal distribution)", stage: "Randomness", desc: "A common pattern where most values sit near the average and few are far away. About 68% fall within 1 'sigma' of the average, 95% within 2 and 99.7% within 3. Used for starting settings and diffusion noise." },
+      { term: "Bell curve", stage: "Randomness", desc: "A common pattern where most values sit near the average and few are far away. About 68% fall within 1 'sigma' of the average, 95% within 2 and 99.7% within 3. Used for starting settings and diffusion noise." },
       { term: "Starting settings (Xavier and He)", stage: "Randomness", desc: "Random starting values whose spread is set from the layer width (Xavier for 1/n, He for 2/n), so signals neither fade away nor blow up in deep networks." },
       { term: "Random walk", stage: "Randomness", desc: "A path made of random steps. The distance from the start grows like the square root of the number of steps. Learning, diffusion and many other methods behave like random walks." },
       { term: "Lévy flight", stage: "Randomness", desc: "A random walk with mostly small steps and the occasional very large jump. Used to model foraging and exploring." },
@@ -4335,7 +4335,7 @@ def pretrain_step(model, batch_tokens, optimizer, max_grad_norm: float = 1.0):
         failures: [
           { title: "Mid-Training Loss Spikes", symptom: "Loss suddenly jumps from 2.1 to 7.8 at step 40,000 due to bad data batches or gradient overflow.", fix: "Clip global gradient norm at 1.0, use Z-loss regularization on logits, and skip corrupted data batches." },
           { title: "GPU Stragglers & Hardware Faults", symptom: "On 8,192 GPUs, a single degraded InfiniBand link or ECC memory error stalls synchronous All-Reduce.", fix: "Run automated health checks, async checkpointing to NVMe every 30 mins, and redundant standby nodes." },
-          { title: "Under-Trained / Over-Sized Model", symptom: "Too many parameters trained on too few tokens wastes inference budget.", fix: "Follow Chinchilla/inference-aware scaling laws (train smaller models on 5T–15T tokens)." }
+          { title: "Under-Trained / Over-Sized Model", symptom: "A model with too many settings but too little training text wastes money every time it runs.", fix: "Train a smaller model on much more text (5 to 15 trillion word pieces)." }
         ]
       },
       {
@@ -7170,8 +7170,8 @@ def top_p_temperature_sample(logits: torch.Tensor, temp: float = 0.7, top_p: flo
     // ----------------------------------------------------------------------------
     let ragStageState = 2;
     const RAG_CANDIDATE_CHUNKS = [
-      { id: "Chunk #402", text: " FlashAttention tiles Q, K, V into GPU SRAM to avoid writing the full N×N attention matrix to HBM, so memory grows as O(N) instead of O(N²).", denseScore: 0.86, bm25Score: 0.92, rerankScore: 0.98, relevant: true },
-      { id: "Chunk #119", text: " GPU HBM3 memory bandwidth on H100 SXM5 reaches 3.35 TB/sec across 5 stacks.", denseScore: 0.88, bm25Score: 0.61, rerankScore: 0.89, relevant: true },
+      { id: "Chunk #402", text: " FlashAttention works on small blocks in the chip's fast memory, so it never has to write out the whole giant table. Memory use grows in step with the text length instead of with its square.", denseScore: 0.86, bm25Score: 0.92, rerankScore: 0.98, relevant: true },
+      { id: "Chunk #119", text: " The H100 chip's main memory can move about 3.35 TB of data per second.", denseScore: 0.88, bm25Score: 0.61, rerankScore: 0.89, relevant: true },
       { id: "Chunk #883", text: " Attention mechanisms in psychology describe how human visual cortex filters distractions.", denseScore: 0.89, bm25Score: 0.15, rerankScore: 0.08, relevant: false }
     ];
 
@@ -8314,7 +8314,7 @@ Generated via Interactive AI Model Architecture & Lifecycle Lab
       for (let t = 0; t < T; t++) { let good = true; for (let i = 0; i < n; i++) if (r() < p) { good = false; break; } if (good) ok++; }
       const bar = $r('psBar'); bar.style.width = Math.max(exact * 100, 0.5) + '%'; bar.textContent = (exact * 100).toFixed(1) + '%';
       bar.style.background = exact > 0.8 ? '#1e8e3e' : exact > 0.4 ? '#f9ab00' : '#d93025';
-      $r('psReadout').textContent = `P(all ${n} tokens right) = (1 - ${p.toFixed(3)})^${n} = ${(exact * 100).toFixed(2)}% | simulated over ${T} answers: ${(ok / T * 100).toFixed(2)}% | typical run before first slip: ${(1 / p).toFixed(0)} tokens`;
+      $r('psReadout').textContent = `Chance all ${n} are right = (1 - ${p.toFixed(3)})^${n} = ${(exact * 100).toFixed(2)}% | simulated over ${T} answers: ${(ok / T * 100).toFixed(2)}% | typical run before first slip: ${(1 / p).toFixed(0)} word pieces`;
     }
 
     // ---------- Concept map ----------
@@ -8324,7 +8324,7 @@ Generated via Interactive AI Model Architecture & Lifecycle Lab
       ['Seeds (repeatable randomness)', 'Making training and tests repeatable. Changing the seed shows how much results vary from run to run', [['c', 'rndTop', 'Seed control'], ['s', 6, 'Step 7: Test it']]],
       ['Chances of a whole sequence', 'When a model writes, the chance of the whole text is each piece\'s chance multiplied together', [['c', 'psCard', 'Lab: Sequence odds'], ['s', 7, 'Step 8: Run it fast']]],
       ['Random walk', 'The bumpy path learning takes, many search methods, and the way noise is added to pictures', [['c', 'rwCard', 'Lab: Random walks'], ['s', 3, 'Step 4: Learn from text']]],
-      ['Bell curve (normal distribution)', 'Picking starting settings, the noise in image generators, and noise added to protect privacy', [['c', 'wiCard', 'Lab: Starting settings'], ['c', 'dfCard', 'Lab: Diffusion'], ['s', 2, 'Step 3: Design the brain']]],
+      ['Bell curve', 'Picking starting settings, the noise in image generators, and noise added to protect privacy', [['c', 'wiCard', 'Lab: Starting settings'], ['c', 'dfCard', 'Lab: Diffusion'], ['s', 2, 'Step 3: Design the brain']]],
       ['Weighted choices', 'Temperature, top-k and top-p: picking the next word from a list where some words are likelier', [['c', 'lsCard', 'Lab: Word sampling'], ['s', 7, 'Step 8: Run it fast']]],
       ['Accept or reject', 'Speeding up answers with a small helper model, and picking the best of several tries', [['c', 'arCard', 'Lab: Accept-reject'], ['s', 7, 'Step 8: Run it fast'], ['s', 5, 'Step 6: Learn manners']]],
       ['Lévy flight (rare huge jumps)', 'Exploring in new ways and restarting from random places (researchers still debate how much it matters)', [['c', 'rwCard', 'Lab: Random walks'], ['s', 5, 'Step 6: Learn manners']]],
@@ -8353,7 +8353,7 @@ Generated via Interactive AI Model Architecture & Lifecycle Lab
       nn1: { q: 'You increase a neuron\'s bias. What happens to its decision line?', o: ['It rotates about the centre', 'It slides sideways, same angle', 'It disappears'], a: 1, why: 'The weights set the angle of the line; the bias slides it. Drag the bias slider to see it move.' },
       nn2: { q: 'Once every point is classified correctly, what do further training steps do?', o: ['Keep changing the weights', 'Nothing: error is 0, so no update', 'Reset the neuron'], a: 1, why: 'Each nudge is mistake × input × learning speed. With no mistakes the nudge is zero, so the weights stay put and learning stops.' },
       nn3: { q: 'Can ONE neuron, with no hidden layer, separate the XOR pattern?', o: ['Yes, with enough training', 'No: one straight line cannot do it', 'Only with a big bias'], a: 1, why: 'XOR cannot be separated by one straight line. Try 1 middle neuron, then 4, and compare.' },
-      ps: { q: 'Each token is wrong 0.5% of the time. How often is a 200-token answer completely right?', o: ['99.5%', 'About 37%', 'About 1%'], a: 1, why: '(1 - 0.005) to the power 200 is about 0.37. Small errors compound over long outputs.' },
+      ps: { q: 'Each word piece is wrong 0.5% of the time. How often is a 200-word-piece answer completely right?', o: ['99.5%', 'About 37%', 'About 1%'], a: 1, why: '(1 - 0.005) to the power 200 is about 0.37. Small errors compound over long outputs.' },
     };
     const rndPicked = {};
     function rndPredictRender() {
@@ -8504,7 +8504,7 @@ Generated via Interactive AI Model Architecture & Lifecycle Lab
       const p = t.instr + '\n\n' + t.shots.slice(0, n).map(s => `Input: ${s[0]}\nAnswer: ${s[1]}\n\n`).join('') + `Input: ${t.input}\nAnswer:`;
       $r('b3Prompt').textContent = p;
       const [txt, fmt, ok] = t.replies[n]; $r('b3Reply').textContent = txt;
-      $r('b3Readout').textContent = `Right format: ${fmt ? 'yes' : 'no'} | Right answer: ${ok ? 'yes' : 'no'} | Prompt length: about ${Math.round(p.split(/\s+/).length * 1.3)} tokens | Weights changed: 0`;
+      $r('b3Readout').textContent = `Right format: ${fmt ? 'yes' : 'no'} | Right answer: ${ok ? 'yes' : 'no'} | Prompt length: about ${Math.round(p.split(/\s+/).length * 1.3)} word pieces | Settings changed: 0`;
     }
     function basicsDraw() { b1Run(); b2Run(); b2Soft(); b3Run(); }
     function basicsInit() { b1Data(); basicsDraw(); }
@@ -8615,7 +8615,7 @@ Generated via Interactive AI Model Architecture & Lifecycle Lab
       g.clearRect(0, 0, W, H); g.fillStyle = '#f8f9fa'; g.fillRect(0, 0, W, H);
       nnLine(g, NN2.w, W, H); nnDots(g, NN2.pts, W, H, p => nn2Guess(p) !== p[2]);
       const wrong = NN2.pts.filter(p => nn2Guess(p) !== p[2]).length, acc = 100 * (1 - wrong / NN2.pts.length);
-      $r('nn2Readout').textContent = `epoch ${NN2.epoch} | accuracy ${acc.toFixed(0)}% (${wrong} wrong, ringed in black) | weights [${NN2.w.map(v => v.toFixed(2)).join(', ')}]` + (NN2.done ? ' | Converged: no mistakes for a full pass, so updates stopped.' : '');
+      $r('nn2Readout').textContent = `round ${NN2.epoch} | accuracy ${acc.toFixed(0)}% (${wrong} wrong, ringed in black) | settings [${NN2.w.map(v => v.toFixed(2)).join(', ')}]` + (NN2.done ? ' | Converged: no mistakes for a full pass, so updates stopped.' : '');
     }
 
     // ---------- 3. Tiny multilayer network (2 - H - 1) trained by backpropagation ----------
@@ -8677,7 +8677,7 @@ Generated via Interactive AI Model Architecture & Lifecycle Lab
       ['Activation function', 'A small on/off-style rule between layers', [['s', 2, 'Step 3: Design the brain']]],
       ['Hidden layers', 'Stacked blocks: attention layers and memory layers', [['s', 2, 'Step 3: Design the brain']]],
       ['Mistake, fixing it, learning speed', 'Measure the mistake, send it backward, adjust the settings, with a learning speed that changes over time', [['s', 3, 'Step 4: Learn from text']]],
-      ['Fine-tune on new examples', 'Fine-tuning, LoRA, then teaching preferences (RLHF, DPO)', [['s', 4, 'Step 5: Learn to chat'], ['s', 5, 'Step 6: Learn manners']]],
+      ['Fine-tune on new examples', 'Fine-tuning, LoRA, then teaching it what people prefer', [['s', 4, 'Step 5: Learn to chat'], ['s', 5, 'Step 6: Learn manners']]],
       ['Accuracy on unseen data', 'Tests, checks for leaked answers, and attempts to trick the model', [['s', 6, 'Step 7: Test it']]],
       ['Handle new inputs', 'Run the model for real users: shrink it, remember earlier work, pick words', [['s', 7, 'Step 8: Run it fast']]],
     ];
